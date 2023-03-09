@@ -1,0 +1,52 @@
+{
+	"private": true,
+	"name": "api-e-commerce-library",
+	"version": "1.0.0",
+	"description": "E-commerce for the sale of books. The system is able to manage inventory, sell, buy, a shopping cart, register users, a user profile and users can authenticate.",
+	"main": "index.ts",
+	"scripts": {
+		"format": "prettier --config -c \".prettierrc\" -u --no-editorconfig -w \"**/*.ts\" --ignore-path \".gitignore\"",
+		"lint": "eslint -c \".eslintrc.json\" --fix \"**/*.ts\" --color",
+		"tsc": "rimraf build & tsc -p \"tsconfig.json\"",
+		"start": "node \"./build/index.js\"",
+		"dev": "ts-node-esm -P \"tsconfig.json\" -T -I \"test\" --logError --pretty \"./src/index.ts\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Jau2002/api-e-commerce-library.git"
+	},
+	"author": "Jau2002 <idamendjaume@gmail.com> (https://www.linkedin.com/in/jaumesuarez)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Jau2002/api-e-commerce-library/issues"
+	},
+	"engines": {
+		"node": ">=14",
+		"npm": ">=6",
+		"pnpm": ">=3"
+	},
+	"homepage": "https://github.com/Jau2002/api-e-commerce-library#readme",
+	"devDependencies": {
+		"@types/cors": "2.8.13",
+		"@types/node": "18.14.6",
+		"@types/express": "4.17.17",
+		"@typescript-eslint/eslint-plugin": "5.54.1",
+		"@typescript-eslint/parser": "5.54.1",
+		"eslint": "8.35.0",
+		"eslint-config-prettier": "8.7.0",
+		"eslint-config-standard-with-typescript": "34.0.0",
+		"eslint-plugin-import": "2.27.5",
+		"eslint-plugin-n": "15.6.1",
+		"eslint-plugin-promise": "6.1.1",
+		"prettier": "2.8.4",
+		"rimraf": "4.4.0",
+		"ts-node": "10.9.1",
+		"typescript": "4.9.5"
+	},
+	"dependencies": {
+		"cors": "2.8.5",
+		"dotenv": "16.0.3",
+		"express": "4.18.2",
+		"morgan-body": "2.6.8"
+	}
+}

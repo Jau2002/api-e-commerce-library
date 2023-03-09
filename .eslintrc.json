@@ -1,0 +1,41 @@
+{
+	"env": {
+		"es2021": true,
+		"node": true
+	},
+	"extends": ["standard-with-typescript", "prettier"],
+	"overrides": [],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module",
+		"project": "tsconfig.json"
+	},
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"rules": {
+		"indent": 0,
+		"curly": [2, "all"],
+		"lines-around-comment": 0,
+		"max-len": 0,
+		"no-confusing-arrow": 0,
+		"no-mixed-operators": 2,
+		"no-tabs": [
+			2,
+			{
+				"allowIndentationTabs": true
+			}
+		],
+		"no-unexpected-multiline": 2,
+		"quotes": [
+			2,
+			"single",
+			{
+				"avoidEscape": true,
+				"allowTemplateLiterals": false
+			}
+		],
+		"@typescript-eslint/no-floating-promises": 0,
+		"@typescript-eslint/restrict-template-expressions": 0
+	},
+	"ignorePatterns": ["node_modules/", "dist/"]
+}
