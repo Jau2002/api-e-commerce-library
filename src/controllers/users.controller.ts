@@ -1,7 +1,12 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
-import { getUsers, postUser } from '../services/users.service';
-import { CREATE, NOT_FOUND, NO_CONTENT, OK } from './protocols';
+import {
+	findForId,
+	getUsers,
+	postUser,
+	updateUser,
+} from '../services/users.service';
+import { CONFLICT, CREATE, NOT_FOUND, NO_CONTENT, OK } from './protocols';
 
 const userController: Router = Router();
 
@@ -33,6 +38,28 @@ userController.post(
 			const newUser: User = await postUser(body);
 
 			return res.status(CREATE).json(newUser);
+		} catch (err) {
+			return res.status(NOT_FOUND).json({ message: (err as Error).message });
+		}
+	}
+);
+
+userController.put(
+	'/:id',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { params, body } = req;
+
+		const id: number = params.id != null ? parseInt(params.id) : 0;
+
+		const foundUser: User | null = await findForId(id);
+		try {
+			if (!foundUser || Object.values(foundUser).length === 0) {
+				return res.status(CONFLICT).json({ message: 'the user´s not exists' });
+			}
+
+			const editUser: User = await updateUser(id, body);
+
+			return res.status(OK).json(editUser);
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}
