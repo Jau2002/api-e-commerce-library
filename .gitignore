@@ -39,3 +39,6 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Prisma
+migrations/
