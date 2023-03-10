@@ -36,7 +36,8 @@
 		],
 		"@typescript-eslint/no-floating-promises": 0,
 		"@typescript-eslint/restrict-template-expressions": 0,
-		"@typescript-eslint/no-misused-promises": 0
+		"@typescript-eslint/no-misused-promises": 0,
+		"@typescript-eslint/strict-boolean-expressions": 0
 	},
 	"ignorePatterns": ["node_modules/", "dist/"]
 }
