@@ -1,7 +1,17 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { findForEmail, postUser } from '../services/sign.service';
-import { CONFLICT, CREATE, NOT_FOUND, NO_CONTENT } from './protocols';
+import { findForId } from '../services/users.service';
+import type { JwtPayload } from '../types';
+import {
+	CONFLICT,
+	CREATE,
+	NOT_FOUND,
+	NO_CONTENT,
+	OK,
+	UNAUTHORIZED,
+} from './protocols';
 
 const signController: Router = Router();
 
@@ -24,7 +34,53 @@ signController.post(
 			}
 			const newUser: User = await postUser(body);
 
-			return res.status(CREATE).json(newUser);
+			const token: string = jwt.sign(
+				{ id: newUser.id },
+				process.env.JWT_SECRET_KEY!,
+				{ expiresIn: 60 * 60 * 24 }
+			);
+
+			return res.status(CREATE).json({ auth: true, token });
+		} catch (err) {
+			return res.status(NOT_FOUND).json({ message: (err as Error).message });
+		}
+	}
+);
+
+signController.get(
+	'/me',
+	async (req: Request, res: Response): Promise<Response> => {
+		const accessToken: string | string[] | undefined =
+			req.headers['x-access-token'];
+
+		if (!accessToken) {
+			res
+				.status(UNAUTHORIZED)
+				.json({ auth: false, message: 'No token provided' });
+		}
+
+		const token: string | false =
+			typeof accessToken === 'string' && accessToken;
+
+		try {
+			const { id } = jwt.verify(
+				token.toString(),
+				process.env.JWT_SECRET_KEY!
+			) as JwtPayload;
+
+			const foundUser: User | null = await findForId(parseInt(id));
+
+			if (!foundUser) {
+				res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
+			}
+
+			const user = {
+				id: foundUser?.id,
+				name: foundUser?.name,
+				email: foundUser?.email,
+			};
+
+			return res.status(OK).json(user);
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}

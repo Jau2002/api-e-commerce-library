@@ -9,3 +9,5 @@ export const CONFLICT: number = 409;
 export const NO_CONTENT: number = 204;
 
 export const INTERNAL_SERVER_ERROR: number = 500;
+
+export const UNAUTHORIZED: number = 401;
