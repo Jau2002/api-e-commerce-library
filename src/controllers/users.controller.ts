@@ -1,13 +1,7 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
-import {
-	findForEmail,
-	findForId,
-	getUsers,
-	postUser,
-	updateUser,
-} from '../services/users.service';
-import { CONFLICT, CREATE, NOT_FOUND, NO_CONTENT, OK } from './protocols';
+import { findForId, getUsers, updateUser } from '../services/users.service';
+import { CONFLICT, NOT_FOUND, OK } from './protocols';
 
 const userController: Router = Router();
 
@@ -18,33 +12,6 @@ userController.get(
 
 		try {
 			return res.status(OK).json(users);
-		} catch (err) {
-			return res.status(NOT_FOUND).json({ message: (err as Error).message });
-		}
-	}
-);
-
-userController.post(
-	'/',
-	async (req: Request, res: Response): Promise<Response> => {
-		const { body } = req;
-
-		try {
-			if (Object.values(body).some((value: unknown): boolean => !value)) {
-				return res
-					.status(NO_CONTENT)
-					.json({ message: 'lack of parameters to create user' });
-			}
-
-			const foundUser: User | null = await findForEmail(body);
-
-			if (foundUser) {
-				throw new Error('Email already exists');
-				// return res.status(CONFLICT).json({ message: 'the user´s exists' });
-			}
-			const newUser: User = await postUser(body);
-
-			return res.status(CREATE).json(newUser);
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}
