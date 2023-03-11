@@ -1,4 +1,5 @@
 import type { User } from '@prisma/client';
+import md5 from 'md5';
 import type { CrateUserDto } from '../dto/user-dto';
 import prisma from '../middlewares/client';
 
@@ -25,7 +26,7 @@ export async function postUser({
 		data: {
 			email,
 			name,
-			password,
+			password: md5(password),
 		},
 	});
 
