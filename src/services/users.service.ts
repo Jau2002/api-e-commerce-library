@@ -10,6 +10,20 @@ export async function getUsers(): Promise<User[]> {
 	return userSearchAll;
 }
 
+export async function findForEmail({
+	email,
+}: {
+	email: string;
+}): Promise<User | null> {
+	const existUser: User | null = await prisma.user.findUnique({
+		where: {
+			email,
+		},
+	});
+
+	return existUser;
+}
+
 export async function postUser({
 	email,
 	name,

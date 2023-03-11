@@ -1,6 +1,7 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
 import {
+	findForEmail,
 	findForId,
 	getUsers,
 	postUser,
@@ -35,6 +36,12 @@ userController.post(
 					.json({ message: 'lack of parameters to create user' });
 			}
 
+			const foundUser: User | null = await findForEmail(body);
+
+			if (foundUser) {
+				throw new Error('Email already exists');
+				// return res.status(CONFLICT).json({ message: 'the user´s exists' });
+			}
 			const newUser: User = await postUser(body);
 
 			return res.status(CREATE).json(newUser);
