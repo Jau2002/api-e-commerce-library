@@ -2,12 +2,9 @@ import type { User } from '@prisma/client';
 import md5 from 'md5';
 import type { CrateUserDto } from '../dto/user-dto';
 import prisma from '../middlewares/client';
+import type { Email, UserAuth } from '../types';
 
-export async function findForEmail({
-	email,
-}: {
-	email: string;
-}): Promise<User | null> {
+export async function findForEmail({ email }: Email): Promise<User | null> {
 	const existUser: User | null = await prisma.user.findUnique({
 		where: {
 			email,
@@ -31,4 +28,17 @@ export async function postUser({
 	});
 
 	return userCreate;
+}
+
+export async function findUserAuth({
+	email,
+	password,
+}: UserAuth): Promise<User | null> {
+	const searchUser: User | null = await prisma.user.findFirst({
+		where: {
+			email,
+			password: md5(password),
+		},
+	});
+	return searchUser;
 }
