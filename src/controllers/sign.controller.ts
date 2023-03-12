@@ -1,23 +1,23 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
-import jwt from 'jsonwebtoken';
+import signToken from '../middlewares/signToken';
+import verifyToken from '../middlewares/verityToken';
 import { findForEmail, findUserAuth, postUser } from '../services/sign.service';
 import { findForId } from '../services/users.service';
-import type { JwtPayload } from '../types';
 import {
 	CONFLICT,
 	CREATE,
 	NOT_FOUND,
 	NO_CONTENT,
 	OK,
-	UNAUTHORIZED,
+	UNAUTHORIZED
 } from './protocols';
 
 const signController: Router = Router();
 
 signController.post(
 	'/up',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (req: Request, res: Response): Promise<Response | any> => {
 		const { body } = req;
 
 		try {
@@ -34,13 +34,11 @@ signController.post(
 			}
 			const newUser: User = await postUser(body);
 
-			const token: string = jwt.sign(
-				{ id: newUser.id },
-				process.env.JWT_SECRET_KEY!,
-				{ expiresIn: 60 * 60 * 24 }
-			);
+			res.locals.user = newUser;
 
-			return res.status(CREATE).json({ auth: true, token });
+			signToken(req, res, (): Response => {
+				return res.status(CREATE).json({ auth: true, token: res.locals.token });
+			});
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}
@@ -49,29 +47,14 @@ signController.post(
 
 signController.get(
 	'/me',
-	async (req: Request, res: Response): Promise<Response> => {
-		const accessToken: string | string[] | undefined =
-			req.headers['x-access-token'];
-
-		if (!accessToken) {
-			res
-				.status(UNAUTHORIZED)
-				.json({ auth: false, message: 'No token provided' });
-		}
-
-		const token: string | false =
-			typeof accessToken === 'string' && accessToken;
-
+	verifyToken,
+	async (_: Request, res: Response): Promise<Response> => {
+		const id = res.locals.user;
 		try {
-			const { id } = jwt.verify(
-				token.toString(),
-				process.env.JWT_SECRET_KEY!
-			) as JwtPayload;
-
 			const foundUser: User | null = await findForId(parseInt(id));
 
 			if (!foundUser) {
-				res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
+				return res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
 			}
 
 			const user = {
@@ -89,9 +72,11 @@ signController.get(
 
 signController.post(
 	'/in',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (req: Request, res: Response): Promise<Response | any> => {
 		const { body } = req;
+
 		const foundUser: User | null = await findForEmail(body);
+
 		try {
 			if (!foundUser) {
 				return res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
@@ -105,13 +90,11 @@ signController.post(
 					.json({ auth: false, message: 'token is invalid' });
 			}
 
-			const token: string = jwt.sign(
-				{ id: user?.id },
-				process.env.JWT_SECRET_KEY!,
-				{ expiresIn: 60 * 60 * 24 }
-			);
+			res.locals.user = user;
 
-			return res.status(OK).json({ auth: true, token });
+			signToken(req, res, (): Response => {
+				return res.status(OK).json({ auth: true, token: res.locals.token });
+			});
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}

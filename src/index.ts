@@ -21,7 +21,7 @@ import app from './middlewares/app';
 
 dotenv.config({ path: '.env' });
 
-const PORT: number = process.env.PORT != null ? parseInt(process.env.PORT) : 0;
+const PORT: number = process.env.PORT ?? 0;
 
 app.listen(PORT, 'localhost', function (): void {
 	console.log(`http://localhost:${this.address().port}`);
