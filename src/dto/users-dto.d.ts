@@ -5,8 +5,6 @@ export interface CrateUserDto {
 	password: string;
 	address?: string;
 	photo?: string;
-	createdAt: Date;
-	updatedAt: Date;
 }
 
 export interface UpdateUserDto {
@@ -16,6 +14,4 @@ export interface UpdateUserDto {
 	password: string;
 	address: string;
 	photo: string;
-	createdAt: Date;
-	updatedAt: Date;
 }

@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client';
 import md5 from 'md5';
-import type { CrateUserDto } from '../dto/user-dto';
+import type { CrateUserDto } from '../dto/users-dto';
 import prisma from '../middlewares/client';
 import type { Email, UserAuth } from '../types';
 

@@ -1,5 +1,5 @@
 import type { User } from '@prisma/client';
-import type { UpdateUserDto } from '../dto/user-dto';
+import type { UpdateUserDto } from '../dto/users-dto';
 import prisma from '../middlewares/client';
 
 export async function getUsers(): Promise<User[]> {
