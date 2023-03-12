@@ -26,6 +26,7 @@ userController.put(
 		const id: number = params.id != null ? parseInt(params.id) : 0;
 
 		const foundUser: User | null = await findForId(id);
+
 		try {
 			if (!foundUser || Object.values(foundUser).length === 0) {
 				return res.status(CONFLICT).json({ message: 'the user´s not exists' });

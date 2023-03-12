@@ -22,14 +22,11 @@ export async function findForId(id: number): Promise<User | null> {
 
 export async function updateUser(
 	id: number,
-	{ email, name, password, address, photo }: UpdateUserDto
+	{ address, photo }: UpdateUserDto
 ): Promise<User> {
 	const userUpdate: User = await prisma.user.update({
 		where: { id },
 		data: {
-			email,
-			name,
-			password,
 			address,
 			photo,
 		},
