@@ -23,5 +23,6 @@
 		"allowUnusedLabels": false,
 		"allowUnreachableCode": false,
 		"skipLibCheck": true
-	}
+	},
+	"exclude": ["node_modules/**", "build/**"]
 }
