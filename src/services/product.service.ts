@@ -2,7 +2,7 @@ import type { Product } from '@prisma/client';
 import type { CrateProductDto, UpdateProductDto } from '../dto/products-dto';
 import prisma from '../middlewares/client';
 
-export async function getStackProducts(): Promise<Product[]> {
+export async function getStockProducts(): Promise<Product[]> {
 	const userSearchAll: Product[] = await prisma.product.findMany({
 		where: {
 			stock: {
