@@ -27,7 +27,7 @@
 		"pnpm": ">=3"
 	},
 	"prisma": {
-		"schema": "./prisma/schema.prisma"
+		"schema": "prisma/schema.prisma"
 	},
 	"homepage": "https://github.com/Jau2002/api-e-commerce-library#readme",
 	"devDependencies": {
