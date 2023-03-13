@@ -9,7 +9,8 @@
 		"lint": "eslint -c \".eslintrc.json\" --fix \"**/*.ts\" --color",
 		"tsc": "rimraf build & tsc -p \"tsconfig.json\"",
 		"start": "node \"./build/index.js\"",
-		"dev": "ts-node-esm -P \"tsconfig.json\" -T -I \"test\" --logError --pretty \"./src/index.ts\""
+		"dev": "ts-node-esm -P \"tsconfig.json\" -T -I \"test\" --logError --pretty \"./src/index.ts\"",
+		"migrate": "npx prisma migrate dev --name init"
 	},
 	"repository": {
 		"type": "git",
@@ -24,6 +25,9 @@
 		"node": ">=14",
 		"npm": ">=6",
 		"pnpm": ">=3"
+	},
+	"prisma": {
+		"schema": "./prisma/schema.prisma"
 	},
 	"homepage": "https://github.com/Jau2002/api-e-commerce-library#readme",
 	"devDependencies": {
