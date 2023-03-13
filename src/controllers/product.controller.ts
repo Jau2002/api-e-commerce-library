@@ -1,7 +1,12 @@
 import type { Product } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
-import { getStackProducts, postProduct } from '../services/product.service';
-import { CREATE, NOT_FOUND, NO_CONTENT, OK } from './protocols';
+import {
+	filtreForId,
+	getStackProducts,
+	postProduct,
+	updateProduct,
+} from '../services/product.service';
+import { CONFLICT, CREATE, NOT_FOUND, NO_CONTENT, OK } from './protocols';
 
 const productController: Router = Router();
 
@@ -33,6 +38,29 @@ productController.post(
 			const product: Product = await postProduct(body);
 
 			return res.status(CREATE).json(product);
+		} catch (err) {
+			return res.status(NOT_FOUND).json({ message: (err as Error).message });
+		}
+	}
+);
+
+productController.put(
+	'/:id',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { body, params } = req;
+
+		const id: number = params.id != null ? parseInt(params.id) : 0;
+
+		try {
+			const foundProduct: Product | null = await filtreForId(id);
+
+			if (!foundProduct || Object.values(foundProduct).length === 0) {
+				return res.status(CONFLICT).json({ message: 'the user´s not exists' });
+			}
+
+			const editProduct: Product = await updateProduct(id, body);
+
+			return res.status(OK).json(editProduct);
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}
