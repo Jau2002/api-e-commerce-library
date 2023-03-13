@@ -1,5 +1,6 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
+import type { UserRegister } from '../services/services';
 import { findForId, getUsers, updateUser } from '../services/users.service';
 import { CONFLICT, NOT_FOUND, OK } from './protocols';
 
@@ -25,7 +26,7 @@ userController.put(
 
 		const id: number = params.id != null ? parseInt(params.id) : 0;
 
-		const foundUser: User | null = await findForId(id);
+		const foundUser: UserRegister = await findForId(id);
 
 		try {
 			if (!foundUser || Object.values(foundUser).length === 0) {

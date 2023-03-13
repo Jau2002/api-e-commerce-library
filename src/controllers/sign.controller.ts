@@ -2,6 +2,7 @@ import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
 import signToken from '../middlewares/signToken';
 import verifyToken from '../middlewares/verityToken';
+import type { UserRegister } from '../services/services';
 import { findForEmail, findUserAuth, postUser } from '../services/sign.service';
 import { findForId } from '../services/users.service';
 import {
@@ -10,7 +11,7 @@ import {
 	NOT_FOUND,
 	NO_CONTENT,
 	OK,
-	UNAUTHORIZED
+	UNAUTHORIZED,
 } from './protocols';
 
 const signController: Router = Router();
@@ -49,21 +50,15 @@ signController.get(
 	'/me',
 	verifyToken,
 	async (_: Request, res: Response): Promise<Response> => {
-		const id = res.locals.user;
+		const id: string = res.locals.user;
 		try {
-			const foundUser: User | null = await findForId(parseInt(id));
+			const foundUser: UserRegister = await findForId(parseInt(id));
 
 			if (!foundUser) {
 				return res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
 			}
 
-			const user = {
-				id: foundUser?.id,
-				name: foundUser?.name,
-				email: foundUser?.email,
-			};
-
-			return res.status(OK).json(user);
+			return res.status(OK).json(foundUser);
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}

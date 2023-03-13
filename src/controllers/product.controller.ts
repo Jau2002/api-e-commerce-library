@@ -2,7 +2,7 @@ import type { Product } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
 import {
 	filtreForId,
-	getStackProducts,
+	getStockProducts,
 	postProduct,
 	updateProduct,
 } from '../services/product.service';
@@ -13,7 +13,7 @@ const productController: Router = Router();
 productController.get(
 	'/',
 	async (_: Request, res: Response): Promise<Response> => {
-		const products: Product[] = await getStackProducts();
+		const products: Product[] = await getStockProducts();
 
 		try {
 			return res.status(OK).json(products);
