@@ -5,14 +5,7 @@ import verifyToken from '../middlewares/verityToken';
 import type { UserRegister } from '../services/services';
 import { findForEmail, findUserAuth, postUser } from '../services/sign.service';
 import { findForId } from '../services/users.service';
-import {
-	CONFLICT,
-	CREATE,
-	NOT_FOUND,
-	NO_CONTENT,
-	OK,
-	UNAUTHORIZED,
-} from './protocols';
+import { CONFLICT, CREATE, NOT_FOUND, OK, UNAUTHORIZED } from './protocols';
 
 const signController: Router = Router();
 
@@ -24,7 +17,7 @@ signController.post(
 		try {
 			if (Object.values(body).some((value: unknown): boolean => !value)) {
 				return res
-					.status(NO_CONTENT)
+					.status(CONFLICT)
 					.json({ message: 'lack of parameters to create user' });
 			}
 

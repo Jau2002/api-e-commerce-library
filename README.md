@@ -11,16 +11,20 @@ E-commerce for the sale of books. The system is able to manage inventory, sell, 
   - [Installation](#installing-dependencies)
   - [Connection](#configure-the-connection)
   - [Run](#running-the-api)
+- [How to Use?](#usage)
+  - [Register](#sign-up)
+  - [Auth](#sign-in)
+  - [Vue User](#me)
 
 ---
 
-### Setup Installation
+## Setup Installation
 
-#### Prerequisites
+### Prerequisites
 
 Before using this application, make sure you have the following prerequisites installed on your system:
 
-##### Mandatory Prerequisites
+#### Mandatory Prerequisites
 
 - [Node.js](https://nodejs.org/en/download/): This is a JavaScript _runtime environment_ that is required to run the application. Follow the instructions on the official Node.js website to download and install the latest version for your operating system.
 
@@ -56,7 +60,7 @@ Alternatively, if you have installed _PNPM_, you can run the following command:
 pnpm install
 ```
 
-#### Configure the Connection
+### Configure the Connection
 
 1. Create file Create a file called **.env**
 
@@ -70,7 +74,7 @@ pnpm install
 
 &. Run the application using
 
-```dosini
+```dotenv
 DATABASE_URL="postgresql://db-user:db-password@localhost:5432/library"
 
 JWT_SECRET_KEY=********
@@ -93,3 +97,122 @@ npm dev
 This will start the backend server on <http://localhost:${PORT>}.
 
 ---
+
+## Usage
+
+### Sign up
+
+The user can be able to register, provide a token and be able to authenticate by username, password and name.
+
+```http
+POST http://localhost:8080/sign/up HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Your Name",
+  "email: "your@email.com",
+  "password": "******"
+}
+```
+
+[x] - If a value is missing for the body _Response_ **409**
+
+```json
+{
+  "message": "lack of parameters to create user"
+}
+```
+
+[x] - If the user's email is already registered, _respond_ **409**
+
+```json
+{
+  "message": "the user´s exists"
+}
+```
+
+If you had no problem with the request, you have a _response_ **201**
+
+```json
+{
+  "auth": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ************"
+}
+```
+
+### Sign in
+
+The user can enter their username and password to register
+
+```http
+POST http://localhost:8080/sign/in HTTP/1.1
+content-type: application/json
+
+{
+    "email: "your@email.com",
+    "password": "******"
+}
+```
+
+[x] - If the user does not exist in the database _respond_ **404**
+
+```json
+{
+  "message": "the user´s not exists"
+}
+```
+
+[x] - If the user does not exist in the database _response_ **404**
+
+```json
+{
+  "message": "the user´s not exists"
+}
+```
+
+[x] - If the user exists, but does not have the permissions _res_ **401**
+
+```json
+{
+  "auth": false,
+  "message": "token is invalid"
+}
+```
+
+If you had no problem with the request, you have a _response_ **200**
+
+```json
+{
+  "auth": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ************"
+}
+```
+
+### Me
+
+The user can view their profile data
+
+```http
+GET http://localhost:8080/sign/me HTTP/1.1
+```
+
+[x] - If the user does not exist in the database _response_ **404**
+
+```json
+{
+  "message": "the user´s not exists"
+}
+```
+
+If you had no problem with the request, you have a _response_ **200**
+
+```json
+{
+  "id": 1,
+  "name": "Your Name",
+  "email: "your@email.com",
+  "address": null,
+  "Cart": null,
+  "photo": null
+}
+```

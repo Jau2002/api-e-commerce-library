@@ -20,6 +20,9 @@ export async function findForId(id: number): Promise<UserRegister> {
 			id: true,
 			name: true,
 			email: true,
+			address: true,
+			Cart: true,
+			photo: true,
 		},
 	});
 
