@@ -204,7 +204,42 @@ If you had no problem with the request, you have a _response_ **200**
   "name": "Your Name",
   "email: "your@email.com",
   "address": null,
-  "Cart": null,
   "photo": null
+  "Cart": null,
+}
+```
+
+### Edit User
+
+You can the power to edit the address and profile photo
+
+```http
+PUT http://localhost:8080/sign/user/1 HTTP/1.1
+content-type: application/json
+
+{
+    "address: "CRA 69 # 3d 39",
+    "photo": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ"
+}
+```
+
+[x] - If the user does not exist in the database or no have parameters _response_ **409**
+
+```json
+{
+  "message": "the user´s not exists"
+}
+```
+
+If you had no problem with the request, you have a _response_ **200**
+
+```json
+{
+  "id": 1,
+  "name": "Your Name",
+  "email: "your@email.com",
+  "address": "CRA 69 # 3d 39",
+  "photo": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ",
+  "Cart": null
 }
 ```
