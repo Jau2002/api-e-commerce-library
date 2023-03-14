@@ -6,7 +6,7 @@ import {
 	postProduct,
 	updateProduct,
 } from '../services/product.service';
-import { CONFLICT, CREATE, NOT_FOUND, NO_CONTENT, OK } from './protocols';
+import { CONFLICT, CREATE, NOT_FOUND, OK } from './protocols';
 
 const productController: Router = Router();
 
@@ -29,12 +29,6 @@ productController.post(
 		const { body } = req;
 
 		try {
-			if (Object.values(body).some((value: unknown): boolean => !value)) {
-				return res
-					.status(NO_CONTENT)
-					.json({ message: 'lack of parameters to create user' });
-			}
-
 			const product: Product = await postProduct(body);
 
 			return res.status(CREATE).json(product);

@@ -15,6 +15,10 @@ E-commerce for the sale of books. The system is able to manage inventory, sell, 
   - [Register](#sign-up)
   - [Auth](#sign-in)
   - [Vue User](#me)
+  - [Edit User](#edit-user)
+  - [Create Product](#create-product)
+  - [List Products](#list-products)
+  - [Edit Product](#update-product)
 
 ---
 
@@ -241,5 +245,98 @@ If you had no problem with the request, you have a _response_ **200**
   "address": "CRA 69 # 3d 39",
   "photo": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ",
   "Cart": null
+}
+```
+
+### Create Product
+
+The customer can create a product
+
+```http
+POST http://localhost:8080/product HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Don Quijote",
+  "author": "Cervantes Saavedra",
+  "price": 4.10,
+  "editorial": "Porrúa S.A.",
+  "stock": 29
+}
+```
+
+If you had no problem with the request, you have a _response_ **200**
+
+```json
+{
+    "id": 1,
+    "title": "Don Quijote",
+    "price": 4.1,
+    "author": "Cervantes Saavedra",
+    "editorial": "Porrua SA",
+    "stock": 29,
+    "updatedAt": "2023-03-14T21:00:24.929Z",
+    "cartId": null
+}
+```
+
+### List Products
+
+The user must be able to list all the products that have stock.
+
+```http
+GET http://localhost:8080/product HTTP/1.1
+```
+
+you have a _response_ **200**
+
+```json
+{
+  "id": 1,
+  "name": "Your Name",
+  "email: "your@email.com",
+  "address": "CRA 69 # 3d 39",
+  "photo": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ",
+  "Cart": null
+}
+```
+
+### Update Product
+
+The user can edit the product
+
+```http
+POST http://localhost:8080/product HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Don Quijote de la Mancha",
+  "author": "Cervantes Saavedra",
+  "price": 4.97,
+  "editorial": "Porrúa S.A.",
+  "stock": 19
+}
+```
+
+[x] - If the product id does not exist in the database _response_ **409**
+
+```json
+{
+  "message": "the user´s not exists"
+}
+```
+
+If you had no problem with the request, you have a _response_ **200**
+
+```json
+{
+  "id": 1,
+  "title": "Don Quijote de la Mancha",
+  "price": 4.97,
+  "author": "Cervantes Saavedra",
+  "editorial": "Porrúa S.A.",
+  "stock": 19,
+  "updatedAt": "2023-03-14T21:09:15.937Z",
+  "cartId": null
 }
 ```
