@@ -340,3 +340,54 @@ If you had no problem with the request, you have a _response_ **200**
   "cartId": null
 }
 ```
+
+### Add Product to Cart
+
+The user will be able to add a product to the cart
+
+```http
+POST http://localhost:8080/product HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Don Quijote de la Mancha",
+  "author": "Cervantes Saavedra",
+  "price": 4.97,
+  "editorial": "Porrúa S.A.",
+  "stock": 19
+}
+```
+
+[x] - If the user is not authorized _res_ **401**
+
+```json
+{
+  "auth": false,
+  "message": "No token provided"
+}
+```
+
+[x] - if the user does not exist in the database _reponed_ **404**
+
+```json
+{
+  "auth": false,
+  "message": "the product not exists"
+}
+```
+
+If you had no problem with the request, you have a _response_ **200**
+
+```json
+{
+ "id": 1,
+ "product": [
+  {
+   "title": "Don Quijote de la Mancha",
+   "price": 4.97,
+   "id": 1,
+   "stock": 19
+  }
+ ]
+}
+```

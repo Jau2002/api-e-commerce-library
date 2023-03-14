@@ -6,6 +6,15 @@ import type { UpdateUser, UserRegister } from './services';
 export async function getUsers(): Promise<User[]> {
 	const userSearchAll: User[] = await prisma.user.findMany({
 		orderBy: { name: 'asc' },
+		select: {
+			id: true,
+			email: true,
+			name: true,
+			address: true,
+			photo: true,
+			password: true,
+			Cart: true,
+		},
 	});
 
 	return userSearchAll;
