@@ -115,14 +115,6 @@ content-type: application/json
 }
 ```
 
-[x] - If a value is missing for the body _Response_ **409**
-
-```json
-{
-  "message": "lack of parameters to create user"
-}
-```
-
 [x] - If the user's email is already registered, _respond_ **409**
 
 ```json

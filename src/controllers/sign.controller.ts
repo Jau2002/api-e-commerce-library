@@ -14,15 +14,8 @@ signController.post(
 	async (req: Request, res: Response): Promise<Response | any> => {
 		const { body } = req;
 
+		const foundUser: User | null = await findForEmail(body);
 		try {
-			if (Object.values(body).some((value: unknown): boolean => !value)) {
-				return res
-					.status(CONFLICT)
-					.json({ message: 'lack of parameters to create user' });
-			}
-
-			const foundUser: User | null = await findForEmail(body);
-
 			if (foundUser) {
 				return res.status(CONFLICT).json({ message: 'the user´s exists' });
 			}
