@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
-import type { UserRegister } from '../services/services';
+import type { UpdateUser, UserRegister } from '../services/services';
 import { findForId, getUsers, updateUser } from '../services/users.service';
 import { CONFLICT, NOT_FOUND, OK } from './protocols';
 
@@ -33,7 +33,7 @@ userController.put(
 				return res.status(CONFLICT).json({ message: 'the user´s not exists' });
 			}
 
-			const editUser: User = await updateUser(id, body);
+			const editUser: UpdateUser = await updateUser(id, body);
 
 			return res.status(OK).json(editUser);
 		} catch (err) {

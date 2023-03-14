@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client';
 import type { UpdateUserDto } from '../dto/users-dto';
 import prisma from '../middlewares/client';
-import type { UserRegister } from './services';
+import type { UpdateUser, UserRegister } from './services';
 
 export async function getUsers(): Promise<User[]> {
 	const userSearchAll: User[] = await prisma.user.findMany({
@@ -32,12 +32,20 @@ export async function findForId(id: number): Promise<UserRegister> {
 export async function updateUser(
 	id: number,
 	{ address, photo }: UpdateUserDto
-): Promise<User> {
-	const userUpdate: User = await prisma.user.update({
+): Promise<UpdateUser> {
+	const userUpdate: UpdateUser = await prisma.user.update({
 		where: { id },
 		data: {
 			address,
 			photo,
+		},
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			address: true,
+			photo: true,
+			Cart: true,
 		},
 	});
 
