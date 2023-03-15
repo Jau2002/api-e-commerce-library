@@ -5,7 +5,7 @@ import { postProductCart } from '../services/cart.service';
 import { filtreForId } from '../services/product.service';
 import type { UserRegister } from '../services/services';
 import { findForId } from '../services/users.service';
-import { CREATE, NOT_FOUND } from './protocols';
+import { CREATE, NOT_FOUND, NO_CONTENT } from './protocols';
 
 const cartController: Router = Router();
 
@@ -38,6 +38,18 @@ cartController.post(
 			);
 
 			return res.status(CREATE).json(productPushed);
+		} catch (err) {
+			return res.status(NOT_FOUND).json({ message: (err as Error).message });
+		}
+	}
+);
+
+cartController.delete(
+	'/:idProduct',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { idProduct } = req.params;
+		try {
+			return res.sendStatus(NO_CONTENT);
 		} catch (err) {
 			return res.status(NOT_FOUND).json({ message: (err as Error).message });
 		}
