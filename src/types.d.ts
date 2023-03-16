@@ -26,6 +26,10 @@ export declare global {
 			DB_HOST: string;
 			DB_PORT: number;
 			DB_NAME: string;
+			JWT_SECRET_KEY: string;
+			WALKWAY_API_CLIENT_ID: string;
+			WALKWAY_APP_SECRET: string;
+			BASE_URL: string;
 		}
 	}
 }
