@@ -16,3 +16,16 @@ interface UpdateUser {
 	Cart: Cart | null;
 	photo: string | null;
 }
+
+interface GetProductIdToCart {
+	product: Product[];
+}
+
+interface Product {
+	id: number;
+	title: string;
+	price: number;
+	stock: number;
+	author: string;
+	editorial: string;
+}

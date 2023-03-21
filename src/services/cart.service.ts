@@ -35,7 +35,9 @@ export async function postProductCart(
 	return pushProductInCart;
 }
 
-export async function getProductCart(userId: number): Promise<any> {
+export async function getProductCart(
+	userId: number
+): Promise<GetProductIdToCart | null> {
 	const getProductIdToCart: GetProductIdToCart | null =
 		await prisma.cart.findUnique({
 			where: {
