@@ -1,3 +1,4 @@
+import type { Cart } from '@prisma/client';
 import type { AddProductToCartDto } from '../dto/cart-dto';
 import prisma from '../middlewares/client';
 import type { GetProductIdToCart } from './services';
@@ -58,4 +59,17 @@ export async function getProductCart(
 		});
 
 	return getProductIdToCart;
+}
+
+export async function deleteProduct(
+	productId: number,
+	userId: number
+): Promise<Cart> {
+	const deleteProductIdToCart: Cart = await prisma.cart.delete({
+		where: {
+			userId,
+			id: productId,
+		},
+	});
+	return deleteProductIdToCart;
 }
