@@ -45,12 +45,13 @@ cartController.post(
 );
 
 cartController.delete(
-	'/:idProduct',
+	'/:productId',
 	verifyToken,
 	async (req: Request, res: Response): Promise<Response> => {
 		const userId: string = res.locals.user;
 
-		const { productId } = req.body;
+		const { productId } = req.params;
+
 		try {
 			const user: UserRegister = await findForId(parseInt(userId));
 
@@ -58,7 +59,7 @@ cartController.delete(
 				return res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
 			}
 
-			const product: Product | null = await filtreForId(parseInt(productId));
+			const product: Product | null = await filtreForId(parseInt(productId!));
 
 			if (!product) {
 				return res
