@@ -1,5 +1,6 @@
 import type { AddProductToCartDto } from '../dto/cart-dto';
 import prisma from '../middlewares/client';
+import type { GetProductIdToCart } from './services';
 
 export async function postProductCart(
 	productId: number,
@@ -32,4 +33,27 @@ export async function postProductCart(
 	});
 
 	return pushProductInCart;
+}
+
+export async function getProductCart(userId: number): Promise<any> {
+	const getProductIdToCart: GetProductIdToCart | null =
+		await prisma.cart.findUnique({
+			where: {
+				userId,
+			},
+			select: {
+				product: {
+					select: {
+						id: true,
+						author: true,
+						editorial: true,
+						price: true,
+						stock: true,
+						title: true,
+					},
+				},
+			},
+		});
+
+	return getProductIdToCart;
 }
