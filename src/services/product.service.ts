@@ -1,5 +1,5 @@
 import type { Product } from '@prisma/client';
-import type { CrateProductDto, UpdateProductDto } from '../dto/products-dto';
+import type { CrateProductDto } from '../dto/products-dto';
 import prisma from '../middlewares/client';
 
 export async function getStockProducts(): Promise<Product[]> {
@@ -48,7 +48,7 @@ export async function filtreForId(id: number): Promise<Product | null> {
 
 export async function updateProduct(
 	id: number,
-	{ title, stock, price, author, editorial }: UpdateProductDto
+	{ title, stock, price, author, editorial }: any
 ): Promise<Product> {
 	const productUpdate: Product = await prisma.product.update({
 		where: { id },
@@ -62,4 +62,14 @@ export async function updateProduct(
 	});
 
 	return productUpdate;
+}
+
+export async function getProduct(id: number): Promise<Product | null> {
+	const filterProductById: Product | null = await prisma.product.findUnique({
+		where: {
+			id,
+		},
+	});
+
+	return filterProductById;
 }
