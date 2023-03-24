@@ -3,7 +3,7 @@ import { Router, type Request, type Response } from 'express';
 import verifyToken from '../middlewares/verityToken';
 import { deleteProduct, postProductCart } from '../services/cart.service';
 import { filtreForId } from '../services/product.service';
-import type { UserRegister } from '../services/services';
+import type { ProductInCart, UserRegister } from '../services/services';
 import { findForId } from '../services/users.service';
 import { CREATE, NOT_FOUND, NO_CONTENT } from './protocols';
 
@@ -32,7 +32,7 @@ cartController.post(
 					.json({ message: 'the product not exists' });
 			}
 
-			const productPushed: AddProductToCartDto[] = await postProductCart(
+			const productPushed: ProductInCart = await postProductCart(
 				product.id,
 				user.id
 			);
