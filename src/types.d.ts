@@ -1,13 +1,4 @@
-interface User {
-	id: string;
-	email: string;
-	name: string;
-	password: string;
-	address: string;
-	photo: string;
-	createdAt: Date;
-	updatedAt: Date;
-}
+import type { User } from './services/services';
 
 export declare global {
 	namespace Express {
@@ -32,13 +23,4 @@ export declare global {
 			BASE_URL: string;
 		}
 	}
-}
-
-interface Email {
-	email: string;
-}
-
-interface UserAuth {
-	email: string;
-	password: string;
 }

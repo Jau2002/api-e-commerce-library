@@ -1,6 +1,5 @@
-import type { User } from '@prisma/client';
 import { Router, type Request, type Response } from 'express';
-import type { UpdateUser, UserRegister } from '../services/services';
+import type { UpdateUser, User, UserRegister } from '../services/services';
 import { findForId, getUsers, updateUser } from '../services/users.service';
 import { CONFLICT, NOT_FOUND, OK } from './protocols';
 

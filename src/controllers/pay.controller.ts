@@ -2,7 +2,7 @@ import { Router, type Request, type Response } from 'express';
 import verifyToken from '../middlewares/verityToken';
 import { getProductCart } from '../services/cart.service';
 import { capturePayment, createOrder } from '../services/pay.service';
-import type { GetProductIdToCart, UserRegister } from '../services/services';
+import type { GetProductInCart, UserRegister } from '../services/services';
 import { findForId } from '../services/users.service';
 import { CREATE, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from './protocols';
 
@@ -21,7 +21,7 @@ payController.post(
 				return res.status(NOT_FOUND).json({ message: 'the user´s not exists' });
 			}
 
-			const productInCart: GetProductIdToCart | null = await getProductCart(
+			const productInCart: GetProductInCart = await getProductCart(
 				parseInt(userId)
 			);
 
