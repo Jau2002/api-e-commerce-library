@@ -10,7 +10,7 @@ function signToken(
 	const { id } = res.locals.user;
 
 	try {
-		const token: string = jwt.sign({ id }, process.env.JWT_SECRET_KEY!, {
+		const token: string = jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
 			expiresIn: 60 * 60 * 24,
 		});
 

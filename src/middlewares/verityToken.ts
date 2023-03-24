@@ -22,7 +22,7 @@ function verifyToken(
 
 		const { id } = jwt.verify(
 			token.toString(),
-			process.env.JWT_SECRET_KEY!
+			process.env.JWT_SECRET_KEY
 		) as JwtPayload;
 
 		res.locals.user = id;
