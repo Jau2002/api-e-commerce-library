@@ -43,7 +43,7 @@ payController.post(
 
 			generateOrder(productInCart);
 
-			const { id, stock } = productInCart.product.map(
+			const { id, stock } = productInCart?.product.map(
 				({
 					id,
 					stock,
