@@ -52,17 +52,23 @@ interface BasicAuth {
 	password: string;
 }
 
+interface Amount {
+	currency_code: string;
+	value: number;
+}
+
+interface PurchaseUnits {
+	amount: Amount;
+}
+
+interface ApplicationContext {
+	user_action: string;
+	landing_page: string;
+	return_url: string;
+}
+
 interface GenerateOrder {
 	intent: string;
-	purchase_units: Array<{
-		amount: {
-			currency_code: string;
-			value: number;
-		};
-	}>;
-	application_context: {
-		user_action: string;
-		landing_page: string;
-		return_url: string;
-	};
+	purchase_units: PurchaseUnits[];
+	application_context: ApplicationContext;
 }
