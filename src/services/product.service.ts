@@ -1,5 +1,4 @@
 import type { Product } from '@prisma/client';
-import type { CrateProductDto } from '../dto/products-dto';
 import prisma from '../middlewares/client';
 
 export async function getStockProducts(): Promise<Product[]> {
@@ -23,7 +22,7 @@ export async function postProduct({
 	price,
 	editorial,
 	stock,
-}: CrateProductDto): Promise<Product> {
+}: Product): Promise<Product> {
 	const createProduct: Product = await prisma.product.create({
 		data: {
 			title,

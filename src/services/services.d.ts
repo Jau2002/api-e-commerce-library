@@ -47,6 +47,15 @@ interface UpdateUser {
 	photo: string | null;
 }
 
+interface Email {
+	email: string;
+}
+
+interface UserAuth {
+	email: string;
+	password: string;
+}
+
 interface BasicAuth {
 	username: string;
 	password: string;
