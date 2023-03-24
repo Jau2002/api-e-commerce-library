@@ -16,13 +16,27 @@ interface ProductInCart {
 
 type GetProductInCart = ProductInCart | null;
 
+interface User {
+	name: string;
+	id: number;
+	email: string;
+	address: string | null;
+	photo: string | null;
+	Cart: Cart | null;
+}
+
 interface SignUser {
 	id: number;
 	name: string;
 	email: string;
 }
 
-export type UserRegister = SignUser | null;
+type UserRegister = SignUser | null;
+
+interface UserPut {
+	address: string;
+	photo: string;
+}
 
 interface UpdateUser {
 	id: number;
