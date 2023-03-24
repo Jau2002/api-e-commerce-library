@@ -1,5 +1,21 @@
 import type { Cart } from '@prisma/client';
 
+interface Product {
+	id: number;
+	title: string;
+	price: number;
+	stock: number;
+	author: string;
+	editorial: string;
+}
+
+interface ProductInCart {
+	product: Product[];
+	id?: number;
+}
+
+type GetProductInCart = ProductInCart | null;
+
 interface SignUser {
 	id: number;
 	name: string;
@@ -15,19 +31,6 @@ interface UpdateUser {
 	address: string | null;
 	Cart: Cart | null;
 	photo: string | null;
-}
-
-interface GetProductIdToCart {
-	product: Product[];
-}
-
-interface Product {
-	id: number;
-	title: string;
-	price: number;
-	stock: number;
-	author: string;
-	editorial: string;
 }
 
 interface BasicAuth {
