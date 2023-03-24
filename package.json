@@ -5,7 +5,7 @@
 	"description": "E-commerce for the sale of books. The system is able to manage inventory, sell, buy, a shopping cart, register users, a user profile and users can authenticate.",
 	"main": "index.ts",
 	"scripts": {
-		"format": "prettier --config -c \".prettierrc\" -u --no-editorconfig -w \"**/*.ts\" --ignore-path \".gitignore\"",
+		"format": "prettier --config -c \".prettierrc.toml\" -u --no-editorconfig -w \"**/*.ts\" --ignore-path \".gitignore\"",
 		"lint": "eslint -c \".eslintrc.json\" --fix \"**/*.ts\" --color",
 		"tsc": "rimraf build & tsc -p \"tsconfig.json\"",
 		"start": "node \"./build/index.js\"",
