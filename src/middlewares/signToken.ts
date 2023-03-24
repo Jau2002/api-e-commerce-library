@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { INTERNAL_SERVER_ERROR } from '../controllers/protocols';
-import type { SignToken } from './middlewares';
+import type { NextMiddle } from './middlewares';
 
-function signToken(_: Request, res: Response, next: NextFunction): SignToken {
+function signToken(_: Request, res: Response, next: NextFunction): NextMiddle {
 	const { id } = res.locals.user;
 	try {
 		const token: string = jwt.sign({ id }, process.env.JWT_SECRET_KEY, {

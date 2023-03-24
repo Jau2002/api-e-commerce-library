@@ -34,10 +34,6 @@ export declare global {
 	}
 }
 
-interface JwtPayload {
-	id: string;
-}
-
 interface Email {
 	email: string;
 }
@@ -46,5 +42,3 @@ interface UserAuth {
 	email: string;
 	password: string;
 }
-
-type AccessToken = string | string[] | undefined;

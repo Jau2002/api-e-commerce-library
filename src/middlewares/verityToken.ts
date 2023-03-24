@@ -1,13 +1,13 @@
 import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { INTERNAL_SERVER_ERROR, UNAUTHORIZED } from '../controllers/protocols';
-import type { AccessToken, JwtPayload } from '../types';
+import type { AccessToken, JwtPayload, NextMiddle } from './middlewares';
 
 function verifyToken(
 	req: Request,
 	res: Response,
 	next: NextFunction
-): Response | any {
+): NextMiddle {
 	const accessToken: AccessToken = req.headers['x-access-token'];
 
 	try {
@@ -33,6 +33,8 @@ function verifyToken(
 			.status(INTERNAL_SERVER_ERROR)
 			.json({ message: (err as Error).message });
 	}
+
+	return undefined;
 }
 
 export default verifyToken;
