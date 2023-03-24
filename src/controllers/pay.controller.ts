@@ -1,20 +1,10 @@
-import type { AxiosResponse } from 'axios';
 import { Router, type Request, type Response } from 'express';
 import verifyToken from '../middlewares/verityToken';
 import { getProductCart } from '../services/cart.service';
-import {
-	// capturePayment,
-	createOrder,
-	generateOrder,
-} from '../services/pay.service';
-import { updateProduct } from '../services/product.service';
-import type {
-	GetProductIdToCart,
-	Product,
-	UserRegister,
-} from '../services/services';
+import { capturePayment, createOrder } from '../services/pay.service';
+import type { GetProductIdToCart, UserRegister } from '../services/services';
 import { findForId } from '../services/users.service';
-import { CREATE, INTERNAL_SERVER_ERROR, NOT_FOUND } from './protocols';
+import { CREATE, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from './protocols';
 
 const payController: Router = Router();
 
@@ -41,21 +31,8 @@ payController.post(
 					.json({ message: 'the product not exists in to Cart' });
 			}
 
-			generateOrder(productInCart);
-
-			const { id, stock } = productInCart?.product.map(
-				({
-					id,
-					stock,
-				}: Product): 0 | { id: number; stock: number } | undefined =>
-					id && { id, stock }
-			) as any;
-
-			await updateProduct(id, stock);
-
-			const order: AxiosResponse = await createOrder();
-
-			return res.status(CREATE).json(order);
+			await createOrder();
+			return res.sendStatus(CREATE);
 		} catch (err) {
 			return res
 				.status(INTERNAL_SERVER_ERROR)
@@ -64,15 +41,13 @@ payController.post(
 	}
 );
 
-payController.post(
+payController.get(
 	'/capture',
-	verifyToken,
-	async (_: Request, res: Response): Promise<Response> => {
-		// const { token, PayerID } = req.body;
+	async (req: Request, res: Response): Promise<Response> => {
+		const { token } = req.query;
 		try {
-			// const captureData = await capturePayment(orderID);
-
-			return res.status(CREATE).json();
+			await capturePayment(token);
+			return res.sendStatus(OK);
 		} catch (err) {
 			return res
 				.status(INTERNAL_SERVER_ERROR)

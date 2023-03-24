@@ -29,3 +29,23 @@ interface Product {
 	author: string;
 	editorial: string;
 }
+
+interface BasicAuth {
+	username: string;
+	password: string;
+}
+
+interface GenerateOrder {
+	intent: string;
+	purchase_units: Array<{
+		amount: {
+			currency_code: string;
+			value: number;
+		};
+	}>;
+	application_context: {
+		user_action: string;
+		landing_page: string;
+		return_url: string;
+	};
+}

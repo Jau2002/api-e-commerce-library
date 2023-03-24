@@ -1,13 +1,20 @@
 import axios, { type AxiosResponse } from 'axios';
-import type { GetProductIdToCart, Product } from './services';
+import type { BasicAuth, GenerateOrder } from './services';
 
 const { WALKWAY_APP_SECRET, WALKWAY_API_CLIENT_ID, BASE_URL, PORT } =
 	process.env;
+
+const basicAuth: () => BasicAuth = (): BasicAuth => ({
+	username: WALKWAY_API_CLIENT_ID,
+	password: WALKWAY_APP_SECRET,
+});
 
 async function generateAccessToken(): Promise<string> {
 	const params = new URLSearchParams();
 
 	params.append('grant_type', 'client_credentials');
+
+	const auth: BasicAuth = basicAuth();
 
 	const { data }: AxiosResponse = await axios.post(
 		`${BASE_URL}/v1/oauth2/token`,
@@ -16,31 +23,25 @@ async function generateAccessToken(): Promise<string> {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			auth: {
-				username: WALKWAY_API_CLIENT_ID,
-				password: WALKWAY_APP_SECRET,
-			},
+			auth,
 		}
 	);
 
 	return data.access_token;
 }
 
-export function generateOrder(product?: GetProductIdToCart | null): object {
+function generateOrder(): GenerateOrder {
 	const order = {
+		intent: 'CAPTURE',
 		purchase_units: [
-			product?.product.map(
-				({ price, title, author, editorial }: Product): object => ({
-					amount: {
-						currency_code: 'USD',
-						value: price,
-					},
-					description: `${title} - ${author} - ${editorial}`,
-				})
-			),
+			{
+				amount: {
+					currency_code: 'USD',
+					value: 2.99,
+				},
+			},
 		],
 		application_context: {
-			brand_name: 'company',
 			user_action: 'PAY_NOW',
 			landing_page: 'LOGIN',
 			return_url: `http://localhost:${PORT}/pay/capture`,
@@ -62,6 +63,20 @@ export async function createOrder(): Promise<AxiosResponse> {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
+		}
+	);
+
+	return data;
+}
+
+export async function capturePayment(token: any): Promise<AxiosResponse> {
+	const auth: BasicAuth = basicAuth();
+
+	const { data }: AxiosResponse = await axios.post(
+		`${BASE_URL}/v2/checkout/orders/${token}/capture`,
+		{},
+		{
+			auth,
 		}
 	);
 
