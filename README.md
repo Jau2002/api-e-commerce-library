@@ -114,7 +114,7 @@ content-type: application/json
 
 {
   "name": "Your Name",
-  "email: "your@email.com",
+  "email": "your@email.com",
   "password": "******"
 }
 ```
@@ -158,14 +158,6 @@ content-type: application/json
 }
 ```
 
-[x] - If the user does not exist in the database _response_ **404**
-
-```json
-{
-  "message": "the user´s not exists"
-}
-```
-
 [x] - If the user exists, but does not have the permissions _res_ **401**
 
 ```json
@@ -190,6 +182,7 @@ The user can view their profile data
 
 ```http
 GET http://localhost:8080/sign/me HTTP/1.1
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ************
 ```
 
 [x] - If the user does not exist in the database _response_ **404**
@@ -206,7 +199,7 @@ If you had no problem with the request, you have a _response_ **200**
 {
   "id": 1,
   "name": "Your Name",
-  "email: "your@email.com",
+  "email": "your@email.com",
   "address": null,
   "photo": null
   "Cart": null,
@@ -218,7 +211,7 @@ If you had no problem with the request, you have a _response_ **200**
 You can the power to edit the address and profile photo
 
 ```http
-PUT http://localhost:8080/sign/user/1 HTTP/1.1
+PUT http://localhost:8080/user/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -241,7 +234,7 @@ If you had no problem with the request, you have a _response_ **200**
 {
   "id": 1,
   "name": "Your Name",
-  "email: "your@email.com",
+  "email": "your@email.com",
   "address": "CRA 69 # 3d 39",
   "photo": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ",
   "Cart": null
@@ -272,7 +265,7 @@ If you had no problem with the request, you have a _response_ **200**
     "id": 1,
     "title": "Don Quijote",
     "price": 4.1,
-    "author": "Cervantes Saavedra",
+    "author": "Cervantes Savedra",
     "editorial": "Porrua SA",
     "stock": 29,
     "updatedAt": "2023-03-14T21:00:24.929Z",
@@ -294,7 +287,7 @@ you have a _response_ **200**
 {
   "id": 1,
   "name": "Your Name",
-  "email: "your@email.com",
+  "email": "your@email.com",
   "address": "CRA 69 # 3d 39",
   "photo": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ",
   "Cart": null
@@ -306,12 +299,12 @@ you have a _response_ **200**
 The user can edit the product
 
 ```http
-POST http://localhost:8080/product HTTP/1.1
+PUT http://localhost:8080/product/1 HTTP/1.1
 content-type: application/json
 
 {
   "title": "Don Quijote de la Mancha",
-  "author": "Cervantes Saavedra",
+  "author": "Cervantes Savedra",
   "price": 4.97,
   "editorial": "Porrúa S.A.",
   "stock": 19
@@ -322,7 +315,7 @@ content-type: application/json
 
 ```json
 {
-  "message": "the user´s not exists"
+  "message": "the product not exists"
 }
 ```
 
@@ -333,7 +326,7 @@ If you had no problem with the request, you have a _response_ **200**
   "id": 1,
   "title": "Don Quijote de la Mancha",
   "price": 4.97,
-  "author": "Cervantes Saavedra",
+  "author": "Cervantes Savedra",
   "editorial": "Porrúa S.A.",
   "stock": 19,
   "updatedAt": "2023-03-14T21:09:15.937Z",
@@ -346,15 +339,12 @@ If you had no problem with the request, you have a _response_ **200**
 The user will be able to add a product to the cart
 
 ```http
-POST http://localhost:8080/product HTTP/1.1
+POST http://localhost:8080/cart HTTP/1.1
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ************
 content-type: application/json
 
 {
-  "title": "Don Quijote de la Mancha",
-  "author": "Cervantes Saavedra",
-  "price": 4.97,
-  "editorial": "Porrúa S.A.",
-  "stock": 19
+  "productId": 1
 }
 ```
 

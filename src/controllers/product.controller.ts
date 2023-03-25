@@ -49,7 +49,7 @@ productController.put(
 			const foundProduct: Product | null = await filtreForId(id);
 
 			if (!foundProduct || Object.values(foundProduct).length === 0) {
-				return res.status(CONFLICT).json({ message: 'the user´s not exists' });
+				return res.status(CONFLICT).json({ message: 'the product not exists' });
 			}
 
 			const editProduct: Product = await updateProduct(id, body);
